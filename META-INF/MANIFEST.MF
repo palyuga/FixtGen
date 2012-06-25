@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: FixtGen
+Bundle-SymbolicName: com.fixtgen;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: fixtgen.main.Activator
+Bundle-Vendor: Dmitry Palyuga
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: junit.framework;version="3.8.2",
+ org.eclipse.core.filesystem,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.core.formatter,
+ org.eclipse.jdt.internal.formatter,
+ org.eclipse.jdt.ui.actions,
+ org.eclipse.jface.text,
+ org.eclipse.text.edits,
+ org.eclipse.ui.ide

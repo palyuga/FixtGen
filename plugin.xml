@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin> 
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="fixtgen.filecreator"
+               label="Create Fixture"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="fixtgen.main.FileCreator"
+            id="fixtgen.filecreator"
+            name="FileCreator">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="fixtgen.preferences.FixtGenPreferencePage"
+            id="fixtgen.preferencepage"
+            name="Fixture Generator">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="fixtgen.preferences.FixtGenPreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
