@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import fixtgen.generators.AbstractGenerator;
 import fixtgen.generators.GeneratorFactory;
+import fixtgen.generators.IModelGenerator;
 import fixtgen.generators.RowFixtureGenerator;
 import fixtgen.main.FixtureType;
 import fixtgen.main.IDataProvider;
@@ -24,6 +25,7 @@ public class WindowAction {
     
     /**
      * The constructor.
+     * @param window Eclipse workbench window
      */
     public WindowAction(IWorkbenchWindow window) {
         this.window = window;
@@ -34,7 +36,7 @@ public class WindowAction {
         
         WizardDialog dialog = new WizardDialog(
             window.getShell(), 
-            this.wizard
+            wizard
         );
         dialog.create();
 
@@ -55,23 +57,26 @@ public class WindowAction {
     }
     
     public void disposeWindows() {
-        if (this.wizard != null) {
+        if (wizard != null) {
             wizard.dispose();
         }
     }
     
 
     public String getGeneratedFixture() {
-        return this.generatedFixture;
+        return generatedFixture;
     }
     
     public String getModelFixture() {
-        return this.modelFixture;
+        return modelFixture;
     }
     
-    private String generateFixture(FixtureType fixtureType, String inputTable) {
+    private String generateFixture(
+        final FixtureType fixtureType,
+        final String inputTable
+    ) {
         String result = null;
-        this.dataProvider = new SimpleStringDataProvider(inputTable);
+        dataProvider = new SimpleStringDataProvider(inputTable);
         createGenerator(fixtureType);
         if (getGenerator() != null) {
             result = getGenerator().generate(dataProvider);
@@ -80,26 +85,26 @@ public class WindowAction {
     }
 
     
-    private String generateModelForRowFixture(String inputTable) {
+    private String generateModelForRowFixture(final String inputTable) {
         String result = null;
         this.dataProvider = new SimpleStringDataProvider(inputTable);
         createGenerator(FixtureType.ROW);
         if (getGenerator() != null) {
-            result = getGenerator().generateModel(dataProvider);
+            result = ((IModelGenerator)getGenerator()).generateModel(dataProvider);
         }
         return result;
     }
     
     public String getClassName() {
-        return this.generator.getClassName(this.dataProvider);
+        return generator.getClassName(dataProvider);
     }
     
     private void createGenerator(FixtureType fixtureType) {
-        this.generator = GeneratorFactory.getGenerator(fixtureType);
+        generator = GeneratorFactory.getGenerator(fixtureType);
     }
     
     public AbstractGenerator getGenerator() {
-        return this.generator;
+        return generator;
     }
 
     public boolean isModelFixtureGenerated() {

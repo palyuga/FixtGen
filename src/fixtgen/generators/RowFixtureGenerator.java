@@ -18,7 +18,7 @@ import fixtgen.main.IDataProvider;
  * @author dpalyuga
  * @version 1.0
  */
-public class RowFixtureGenerator extends AbstractGenerator {
+public class RowFixtureGenerator extends AbstractGenerator implements IModelGenerator {
     
     private static final String TYPE_PREFIX = "RowFixture";
 

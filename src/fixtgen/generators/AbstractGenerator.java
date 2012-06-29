@@ -27,19 +27,13 @@ import fixtgen.main.IDataProvider;
  */
 public abstract class AbstractGenerator {
     
-    final static public String COPYRIGHT = "Copyright"; //TODO: Add copyright
+    protected static final String COPYRIGHT = "Copyright"; //TODO: Add copyright
 
-    final static String PARENT_CLASS_PROPERTY_KEY = "parentClass";
+    protected static final String IMPORT_CLASSES_DELIMITER = ",";
 
-    final static String IMPORT_CLASSES_PROPERTY_KEY = "importClasses";
+    protected static final String CLASS_MODIFIER = "public";
 
-    final static String IMPORT_CLASSES_DELIMITER = ",";
-
-    final static String CLASS_MODIFIER = "public";
-
-    final static String EXTENDS = "extends";
-
-    final static String CONFIG_DIR = "config";
+    protected static final String EXTENDS = "extends";
     
     private String parentClass;
     
@@ -67,10 +61,6 @@ public abstract class AbstractGenerator {
     public String getClassName(final IDataProvider dataProvider) {
         dataProvider.reset();
         return this.getClassNameFromPackagePath(dataProvider.readLine());
-    }
-
-    public String generateModel(final IDataProvider dataProvider) {
-        return "";
     }
 
     protected final String convertToCamelCase(final String inputString) {
@@ -121,7 +111,9 @@ public abstract class AbstractGenerator {
 
 
     protected String getPackageName(final String inputString) {
-        /* We need to take only first column value for a row fixtures which has two columns in header */
+        
+        /* We need to take only first column value for row fixtures 
+         * which has more than one columns in the header */
         String firstColumn = this.splitTableCells(inputString)[0];
 
         String[] stringArray = this.stripTableSymbols(firstColumn).split("\\.");
@@ -134,7 +126,9 @@ public abstract class AbstractGenerator {
     }
 
     protected String getClassNameFromPackagePath(final String inputString) {
-        /* We need to take only first column value for a row fixtures which has two columns in header */
+        
+        /* We need to take only first column value for row fixtures 
+         * which has more than one columns in the header */
         String firstColumn = this.splitTableCells(inputString)[0];
 
         String[] stringArray = this.stripTableSymbols(firstColumn).split("\\.");
@@ -171,7 +165,7 @@ public abstract class AbstractGenerator {
         return result.toString();
     }
 
-    String getCopyright() {
+    protected String getCopyright() {
         return COPYRIGHT;
     }
 
