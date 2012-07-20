@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import fixtgen.actions.*;
 
 import org.eclipse.core.filesystem.EFS;
@@ -32,8 +31,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
  */
 public class FileCreator extends AbstractHandler {
    
-    ExecutionEvent executionEvent;
-    WindowAction action;
+    private ExecutionEvent executionEvent;
+    
+    private WindowAction action;
  
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -43,7 +43,7 @@ public class FileCreator extends AbstractHandler {
         IStructuredSelection selection = 
                 (IStructuredSelection) HandlerUtil.getActiveMenuSelection(event);
         
-        Object firstElement = selection.getFirstElement();
+        final Object firstElement = selection.getFirstElement();
         
         /* 
          * If selected item is package 
@@ -61,7 +61,7 @@ public class FileCreator extends AbstractHandler {
                 IPackageFragment cu = (IPackageFragment) firstElement;
                 IResource res = cu.getResource();
                 
-                write(
+                writeToFile(
                    res.getLocation().toString(),
                    className,
                    SourceCodeFormatter.format(generatedFixture)
@@ -72,7 +72,7 @@ public class FileCreator extends AbstractHandler {
                     final String modelFixture = action.getModelFixture();
 
                     if (action.isModelFixtureGenerated()) {
-                        write(
+                        writeToFile(
                             res.getLocation().toString(), 
                             action.getModelClassName(), 
                             SourceCodeFormatter.format(modelFixture)
@@ -157,20 +157,50 @@ public class FileCreator extends AbstractHandler {
      * @param name filename
      * @param content file content
      */
-    private void write(
+    private void writeToFile(
         final String dir, 
         final String name, 
         final String content
     ) {
-        try {
-            String outputFile = dir + File.separator + name + ".java";
+    	final String outputFile = dir + File.separator + name + ".java";
 
-            FileWriter output = new FileWriter(outputFile);
-            BufferedWriter writer = new BufferedWriter(output);
+        FileWriter output = null; 
+        BufferedWriter writer = null;
+        try {
+        	output = new FileWriter(outputFile);
+        	writer = new BufferedWriter(output);
             writer.write(content);
             writer.flush();
         } catch (IOException e) {
+        	MessageDialog.openError(
+                    HandlerUtil.getActiveShell(this.executionEvent),
+                    "Error", "Error occurred trying to write to file"
+            );
             e.printStackTrace();
+        } finally {
+        	if (writer != null) {
+        		try {
+					writer.close();
+				} catch (IOException e) {
+					MessageDialog.openError(
+		                    HandlerUtil.getActiveShell(this.executionEvent),
+		                    "Error", "Error occured trying to close BufferedWriter"
+		            );
+					e.printStackTrace();
+				}
+        	}
+        	
+        	if (output != null) {
+        		try {
+					output.close();
+				} catch (IOException e) {
+					MessageDialog.openError(
+		                    HandlerUtil.getActiveShell(this.executionEvent),
+		                    "Error", "Error occured trying to close FileWriter"
+		            );
+					e.printStackTrace();
+				}
+        	}
         }
     }
     

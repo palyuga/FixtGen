@@ -1,17 +1,8 @@
-/**
- * @{#} RowFixtureGenerator.java
- *
- * This file contains Boeing intellectual property.  It may
- * contain information about Boeing processes that are part
- * of the Company's competitive advantage. Release of this
- * file requires prior approval from Boeing Management.
- *
- * Copyright (c) Feb 20, 2012, The Boeing Company
- * Unpublished Work - All Rights Reserved
- */
 package fixtgen.generators;
 
+import fixtgen.main.FixtureType;
 import fixtgen.main.IDataProvider;
+import fixtgen.preferences.IPreferenceManager;
 
 /**
  * RowFixture generator
@@ -20,7 +11,7 @@ import fixtgen.main.IDataProvider;
  */
 public class RowFixtureGenerator extends AbstractGenerator implements IModelGenerator {
     
-    private static final String TYPE_PREFIX = "RowFixture";
+    private static final String TYPE_PREFIX = FixtureType.ROW.getName();
 
     public static String MODEL_CLASSNAME = "ModelClass";
     
@@ -30,9 +21,18 @@ public class RowFixtureGenerator extends AbstractGenerator implements IModelGene
     
     private String methodModifier = "public";
     
+    private RowFixtureGenerator(final IPreferenceManager preferenceManager) {
+        super(preferenceManager);
+    }
+    
+    public static RowFixtureGenerator createNew(final IPreferenceManager preferenceManager) {
+    	return new RowFixtureGenerator(preferenceManager);
+    }    
+    
     @Override
     public String generate(IDataProvider dataProvider) {
         StringBuffer result = new StringBuffer();
+        dataProvider.reset();
         String currentLine;
         int lineNumber = 0;
         if ( (currentLine = dataProvider.readLine()) != null ) {
@@ -130,11 +130,11 @@ public class RowFixtureGenerator extends AbstractGenerator implements IModelGene
 
     @Override
     protected String getParentClassKey() {
-        return TYPE_PREFIX + "ParentClass";
+        return TYPE_PREFIX + PARENT_CLASS_PREF_POSTFIX;
     }
 
     @Override
     protected String getImportClassesKey() {
-        return TYPE_PREFIX + "ImportClasses";
+        return TYPE_PREFIX + IMPORT_CLASSES_PREF_POSTFIX;
     }
 }

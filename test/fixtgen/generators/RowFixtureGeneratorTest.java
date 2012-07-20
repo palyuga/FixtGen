@@ -1,20 +1,23 @@
 package fixtgen.generators;
 
 import fixtgen.main.IDataProvider;
+import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;
 
 public class RowFixtureGeneratorTest extends TestCase {
-    public void testGenerate() {
-        RowFixtureGenerator generator = new RowFixtureGenerator();
-        System.out.println(generator.generate(new FakeRowFixtureDataProvider()));
+    
+	private static final RowFixtureGenerator generator =
+			RowFixtureGenerator.createNew(new MockPreferenceManager());
+	
+	public void testGenerate() {
+        System.out.println(generator.generate(new RowFixtureMockDataProvider()));
     }
     
     public void testGenerateModel() {
-        RowFixtureGenerator generator = new RowFixtureGenerator();
-        System.out.println(generator.generateModel(new FakeRowFixtureDataProvider()));
+        System.out.println(generator.generateModel(new RowFixtureMockDataProvider()));
     }
     
-    static class FakeRowFixtureDataProvider implements IDataProvider {
+    static class RowFixtureMockDataProvider implements IDataProvider {
 
         private static int lineNumber = 0;
         

@@ -1,11 +1,14 @@
 package fixtgen.generators;
 
+import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;
 
 public class AbstractGeneratorTest extends TestCase {
     
+	private static final AbstractGenerator generator =
+		ColumnFixtureGenerator.createNew(new MockPreferenceManager());
+	
     public void testConvertToCamelCase() {
-        AbstractGenerator generator = new ColumnFixtureGenerator();
         String humanString = "   kill   all humans ";
         String expectedResult = "killAllHumans";
         String actualResult = generator.convertToCamelCase(humanString);
@@ -13,7 +16,6 @@ public class AbstractGeneratorTest extends TestCase {
     }
     
     public void testTrimTableSymbols() {
-        AbstractGenerator generator = new ColumnFixtureGenerator();
         String inputString = " |  some.text       | ";
         String expectedResult = "some.text";
         String actualResult = generator.stripTableSymbols(inputString);
@@ -21,7 +23,6 @@ public class AbstractGeneratorTest extends TestCase {
     }
     
     public void testGetClassNameFromPackagePath() {
-        AbstractGenerator generator = new ColumnFixtureGenerator();
         String inputString = "some.package.name.ClassName";
         String expectedResult = "ClassName";
         String actualResult = generator.getClassNameFromPackagePath(inputString);
@@ -29,7 +30,6 @@ public class AbstractGeneratorTest extends TestCase {
     }
     
     public void testSplitTableCells() {
-        AbstractGenerator generator = new ColumnFixtureGenerator();
         String inputString = "  |one|two|three| ";
         String[] expectedResult = {"one", "two", "three"};
         String[] actualResult = generator.splitTableCells(inputString);

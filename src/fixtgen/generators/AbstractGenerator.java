@@ -1,14 +1,3 @@
-/**
- * @{#} IGenerator.java
- *
- * This file contains Boeing intellectual property.  It may
- * contain information about Boeing processes that are part
- * of the Company's competitive advantage. Release of this
- * file requires prior approval from Boeing Management.
- *
- * Copyright (c) Feb 15, 2012, The Boeing Company
- * Unpublished Work - All Rights Reserved
- */
 package fixtgen.generators;
 
 import java.io.File;
@@ -16,18 +5,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import fixtgen.main.Activator;
 import fixtgen.main.IDataProvider;
+import fixtgen.preferences.IPreferenceManager;
 
 /**
  * Generator interface
  *
  * @author dpalyuga
- * @version 1.0
+ * @version 1.0 
  */
 public abstract class AbstractGenerator {
     
-    protected static final String COPYRIGHT = "Copyright"; //TODO: Add copyright
+    protected static final String COPYRIGHT = "Copyright"; //TODO: Add copyright reading from preferences
 
     protected static final String IMPORT_CLASSES_DELIMITER = ",";
 
@@ -35,20 +24,18 @@ public abstract class AbstractGenerator {
 
     protected static final String EXTENDS = "extends";
     
+    public static final String PARENT_CLASS_PREF_POSTFIX = "ParentClass";
+    
+    public static final String IMPORT_CLASSES_PREF_POSTFIX = "ImportClasses";
+    
     private String parentClass;
     
     private String importClasses;    
     
-    protected AbstractGenerator() {
+    protected AbstractGenerator(final IPreferenceManager preferenceManager) {
         
-        final String parentClass = Activator.getDefault().getPreferenceStore()
-                .getString(getParentClassKey());        
-        
-        final String importClasses = Activator.getDefault().getPreferenceStore()
-                .getString(getImportClassesKey());
-        
-        setParentClass(parentClass);
-        setImportClasses(importClasses);
+        this.parentClass = preferenceManager.getPreference(getParentClassKey());       
+        this.importClasses = preferenceManager.getPreference(getImportClassesKey());
     }
 
     public abstract String generate(final IDataProvider dataProvider);
@@ -180,7 +167,7 @@ public abstract class AbstractGenerator {
         } else {
             StringBuilder out = new StringBuilder();
             out.append(strArray[0]);
-            for (int i = 1 ;i < strArray.length; i++) {
+            for (int i = 1; i < strArray.length; i++) {
                 out.append(glue).append(strArray[i]);
             }
             result = out.toString();
@@ -201,23 +188,7 @@ public abstract class AbstractGenerator {
         fis.close();
         return props;
     }
-    
-
-    /**
-     * @param parentClass the parentClass to set
-     */
-    public void setParentClass(String parentClass) {
-        this.parentClass = parentClass;
-    }
-
-    /**
-     * @param importClasses the importClasses to set
-     */
-    public void setImportClasses(String importClasses) {
-        this.importClasses = importClasses;
-    }
-
-    
+        
     protected String getParentClass() {
         return this.parentClass;
     }

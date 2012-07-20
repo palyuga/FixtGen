@@ -1,6 +1,7 @@
 package fixtgen.generators;
 
 import fixtgen.main.FixtureType;
+import fixtgen.preferences.EclipsePreferenceManager;
 
 /**
  * Factory produces fixture generators
@@ -21,15 +22,15 @@ public class GeneratorFactory {
         switch (fixtureType) {
             
             case COLUMN:
-                result = new ColumnFixtureGenerator();
+                result = ColumnFixtureGenerator.createNew(EclipsePreferenceManager.getInstance());
                 break;
             
             case DO:
-                result = new DoFixtureGenerator();
+                result = DoFixtureGenerator.createNew(EclipsePreferenceManager.getInstance());
                 break;
             
             case ROW:
-                result = new RowFixtureGenerator();
+                result = RowFixtureGenerator.createNew(EclipsePreferenceManager.getInstance());
                 break;
             
             default:

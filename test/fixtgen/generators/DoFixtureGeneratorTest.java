@@ -1,21 +1,26 @@
 package fixtgen.generators;
 
 import fixtgen.main.IDataProvider;
+import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;
 
 public class DoFixtureGeneratorTest extends TestCase {
+
+	private static final DoFixtureGenerator generator =
+			DoFixtureGenerator.createNew(new MockPreferenceManager());
+	
      public void testGetMethodNameFromTableRow() {
          final String inputString = " | is text  | someText | displayed on page | pageName  |  ";
          final String expectedResult = "isTextDisplayedOnPage";
-         assertEquals(expectedResult, new DoFixtureGenerator().getMethodNameFromTableRow(inputString));
+         assertEquals(expectedResult, generator.getMethodNameFromTableRow(inputString));
      }
      
      public void testGetParentClass() {
-         System.out.println(new DoFixtureGenerator().getParentClass());
+         System.out.println(generator.getParentClass());
      }
      
      public void testGetImportClasses() {
-         String[] result = new DoFixtureGenerator().getImportClasses();
+         String[] result = generator.getImportClasses();
          for (String item : result) {
              System.out.println(item);
          }
@@ -30,11 +35,11 @@ public class DoFixtureGeneratorTest extends TestCase {
              + "public boolean isPackageTypeComboboxEnabled() { return true; } "
              + "public boolean isThisNumberGreaterThanAndNotSeven(final String arg0, final String arg1) { return true; } "
              + "}";
-         final String actualResult = new DoFixtureGenerator().generate(new FakeDoFixtureDataProvider());
+         final String actualResult = generator.generate(new DoFixtureDataMockProvider());
          assertEquals(expectedResult, actualResult);
      }
      
-     static class FakeDoFixtureDataProvider implements IDataProvider {
+     static class DoFixtureDataMockProvider implements IDataProvider {
 
          private static int lineNumber = 0;
          

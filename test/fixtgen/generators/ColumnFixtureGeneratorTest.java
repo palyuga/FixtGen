@@ -1,13 +1,16 @@
 package fixtgen.generators;
 
 import fixtgen.main.IDataProvider;
+import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;
 
 public class ColumnFixtureGeneratorTest extends TestCase {
     
+	private static final ColumnFixtureGenerator generator =
+		ColumnFixtureGenerator.createNew(new MockPreferenceManager());
+	
     public void testIsMethodName() {
     
-        ColumnFixtureGenerator generator = new ColumnFixtureGenerator();
         final String method1 = " method? ";
         final String method2 = " method() ";
         final String notMethod = " this is not a method ";
@@ -18,7 +21,6 @@ public class ColumnFixtureGeneratorTest extends TestCase {
     }
 
     public void testGenerate() {
-        ColumnFixtureGenerator generator = new ColumnFixtureGenerator();
         final String expectedOutput = 
             "/** " + ColumnFixtureGenerator.COPYRIGHT + " */"
             + "package some.package;import com.boeing.eid.odt.fitnesse.common.ColumnSymbolFixture;"
@@ -26,15 +28,14 @@ public class ColumnFixtureGeneratorTest extends TestCase {
             + "{/** attr one */ public String attrOne;/** attr two */ public String attrTwo;" 
             + "public String methodOne() {final String result = \"\";return result;}" 
             + " public String methodTwo() {final String result = \"\";return result;} }";
-        assertEquals(generator.generate(new FakeDataProvider()), expectedOutput);
+        assertEquals(generator.generate(new MockDataProvider()), expectedOutput);
     }
     
     public void testY() {
-        ColumnFixtureGenerator generator = new ColumnFixtureGenerator();
-        System.out.println(generator.generate(new FakeDataProvider1()));
+        System.out.println(generator.generate(new MockDataProvider1()));
     }
     
-    static class FakeDataProvider implements IDataProvider {
+    static class MockDataProvider implements IDataProvider {
 
         private static int lineNumber = 1;
         
@@ -62,7 +63,7 @@ public class ColumnFixtureGeneratorTest extends TestCase {
         }
     }
     
-    static class FakeDataProvider1 implements IDataProvider {
+    static class MockDataProvider1 implements IDataProvider {
 
         private static int lineNumber = 1;
         

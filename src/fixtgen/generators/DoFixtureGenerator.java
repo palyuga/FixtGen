@@ -3,7 +3,9 @@ package fixtgen.generators;
 import java.util.HashMap;
 import java.util.Map;
 
+import fixtgen.main.FixtureType;
 import fixtgen.main.IDataProvider;
+import fixtgen.preferences.IPreferenceManager;
 
 /**
  * DoFixture generator
@@ -18,12 +20,16 @@ public class DoFixtureGenerator extends AbstractGenerator {
     
     final static String METHOD_TYPE = "String";
 
-    private static final String TYPE_PREFIX = "DoFixture";
+    private static final String TYPE_PREFIX = FixtureType.DO.getName();
     
     private Map<String, Boolean> methodsAdded = new HashMap<String, Boolean>();
     
-    public DoFixtureGenerator() {
-        super();
+    private DoFixtureGenerator(final IPreferenceManager preferenceManager) {
+        super(preferenceManager);
+    }
+    
+    public static DoFixtureGenerator createNew(final IPreferenceManager preferenceManager) {
+    	return new DoFixtureGenerator(preferenceManager);
     }
     
     @Override
@@ -142,12 +148,12 @@ public class DoFixtureGenerator extends AbstractGenerator {
     
     @Override
     protected String getParentClassKey() {
-        return TYPE_PREFIX + "ParentClass";
+        return TYPE_PREFIX + PARENT_CLASS_PREF_POSTFIX;
     }
 
     @Override
     protected String getImportClassesKey() {
-        return TYPE_PREFIX + "ImportClasses";
+        return TYPE_PREFIX + IMPORT_CLASSES_PREF_POSTFIX;
     }
 
 }
