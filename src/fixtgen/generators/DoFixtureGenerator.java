@@ -20,8 +20,6 @@ public class DoFixtureGenerator extends AbstractGenerator {
     
     final static String METHOD_TYPE = "String";
 
-    private static final String TYPE_PREFIX = FixtureType.DO.getName();
-    
     private Map<String, Boolean> methodsAdded = new HashMap<String, Boolean>();
     
     private DoFixtureGenerator(final IPreferenceManager preferenceManager) {
@@ -58,7 +56,7 @@ public class DoFixtureGenerator extends AbstractGenerator {
                         "boolean" : "String"
                     );
                     
-                    result.append(" " + methodName + "(");
+                    result.append(" ").append(methodName).append("(");
                     
                     
                     for (int i = 0; i < numberOfArguments; i++) {
@@ -148,12 +146,12 @@ public class DoFixtureGenerator extends AbstractGenerator {
     
     @Override
     protected String getParentClassKey() {
-        return TYPE_PREFIX + PARENT_CLASS_PREF_POSTFIX;
+        return FixtureType.DO.getParentClassPrefKey();
     }
 
     @Override
     protected String getImportClassesKey() {
-        return TYPE_PREFIX + IMPORT_CLASSES_PREF_POSTFIX;
+        return FixtureType.DO.getImportClassesPrefKey();
     }
 
 }

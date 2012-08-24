@@ -1,5 +1,6 @@
 package fixtgen.generators;
 
+import fixtgen.generators.DoFixtureGenerator;
 import fixtgen.main.IDataProvider;
 import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;

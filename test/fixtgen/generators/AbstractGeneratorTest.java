@@ -1,12 +1,15 @@
 package fixtgen.generators;
 
+import fixtgen.generators.AbstractGenerator;
+import fixtgen.main.IDataProvider;
+import fixtgen.preferences.IPreferenceManager;
 import fixtgen.testservice.MockPreferenceManager;
 import junit.framework.TestCase;
 
 public class AbstractGeneratorTest extends TestCase {
     
 	private static final AbstractGenerator generator =
-		ColumnFixtureGenerator.createNew(new MockPreferenceManager());
+		new AbstractGeneratorTest().new TestAbstractGenerator(new MockPreferenceManager());
 	
     public void testConvertToCamelCase() {
         String humanString = "   kill   all humans ";
@@ -48,5 +51,28 @@ public class AbstractGeneratorTest extends TestCase {
         }
     }
     
+    /* Class extending abstract class to test it's methods */
+    private class TestAbstractGenerator extends AbstractGenerator {
+
+        protected TestAbstractGenerator(IPreferenceManager preferenceManager) {
+            super(preferenceManager);
+        }
+
+        @Override
+        public String generate(IDataProvider dataProvider) {
+            return null;
+        }
+
+        @Override
+        protected String getParentClassKey() {
+            return null;
+        }
+
+        @Override
+        protected String getImportClassesKey() {
+            return null;
+        }
+        
+    }
     
 }

@@ -24,10 +24,6 @@ public abstract class AbstractGenerator {
 
     protected static final String EXTENDS = "extends";
     
-    public static final String PARENT_CLASS_PREF_POSTFIX = "ParentClass";
-    
-    public static final String IMPORT_CLASSES_PREF_POSTFIX = "ImportClasses";
-    
     private String parentClass;
     
     private String importClasses;    

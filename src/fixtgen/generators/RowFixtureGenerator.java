@@ -11,8 +11,6 @@ import fixtgen.preferences.IPreferenceManager;
  */
 public class RowFixtureGenerator extends AbstractGenerator implements IModelGenerator {
     
-    private static final String TYPE_PREFIX = FixtureType.ROW.getName();
-
     public static String MODEL_CLASSNAME = "ModelClass";
     
     private String attrModifier = "public";
@@ -130,11 +128,11 @@ public class RowFixtureGenerator extends AbstractGenerator implements IModelGene
 
     @Override
     protected String getParentClassKey() {
-        return TYPE_PREFIX + PARENT_CLASS_PREF_POSTFIX;
+        return FixtureType.ROW.getParentClassPrefKey();
     }
 
     @Override
     protected String getImportClassesKey() {
-        return TYPE_PREFIX + IMPORT_CLASSES_PREF_POSTFIX;
+        return FixtureType.ROW.getImportClassesPrefKey();
     }
 }

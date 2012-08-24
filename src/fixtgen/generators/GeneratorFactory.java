@@ -33,6 +33,10 @@ public class GeneratorFactory {
                 result = RowFixtureGenerator.createNew(EclipsePreferenceManager.getInstance());
                 break;
             
+            case SEQUENCE:
+                result = SequenceFixtureGenerator.createNew(EclipsePreferenceManager.getInstance());
+                break;
+                
             default:
                 throw new IllegalArgumentException("Unsupported fixture type");
         }

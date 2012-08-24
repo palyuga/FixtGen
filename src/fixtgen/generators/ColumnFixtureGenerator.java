@@ -51,14 +51,14 @@ public class ColumnFixtureGenerator extends AbstractGenerator {
                         result.append(getAttrDeclaration(item));
                     }
                 }
-                break; // Only reading second line with attributes and methods names
+                break; // To read only the second line with attributes and methods names
             }
         }
         result.append("}");
         return result.toString();
     }
     
-    protected boolean isMethodName(final String name) {
+    public boolean isMethodName(final String name) {
         final String clearName = getClearName(name);
         final String lastSymbol = clearName.substring(clearName.length() - 1);
         final String lastTwoSymblos = clearName.substring(clearName.length() - 2);
@@ -89,12 +89,12 @@ public class ColumnFixtureGenerator extends AbstractGenerator {
 
     @Override
     protected String getParentClassKey() {
-        return TYPE_PREFIX + PARENT_CLASS_PREF_POSTFIX;
+        return FixtureType.COLUMN.getParentClassPrefKey();
     }
 
     @Override
     protected String getImportClassesKey() {
-        return TYPE_PREFIX + IMPORT_CLASSES_PREF_POSTFIX;
+        return FixtureType.COLUMN.getImportClassesPrefKey();
     }
 
 }

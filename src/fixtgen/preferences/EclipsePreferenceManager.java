@@ -6,6 +6,7 @@ public class EclipsePreferenceManager implements IPreferenceManager {
 
 	private static final IPreferenceManager instance = new EclipsePreferenceManager();
 	
+	/** Supress default constructor */
 	private EclipsePreferenceManager() {}
 	
 	public static IPreferenceManager getInstance() {
